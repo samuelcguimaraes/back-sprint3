@@ -27,7 +27,11 @@ public class Product {
 	
 	private Integer weightInGrams;
 	
-	//    private List<Size> availableSizes;
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "product_available_sizes", joinColumns = @JoinColumn(name = "product_code"))
+	@Column(name = "available_sizes")
+	@Enumerated(EnumType.STRING)
+	private List<Size> availableSizes;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Category category;
@@ -96,5 +100,9 @@ public class Product {
 	
 	public Category getCategory() {
 		return this.category;
+	}
+	
+	public List<Size> getAvailableSizes() {
+		return this.availableSizes;
 	}
 }
