@@ -22,7 +22,7 @@ public class ProductRepository {
 	
 	public List<ProductByColorDto> productsByColor() {
 		return this.entityManager.createQuery(
-				"select new br.com.rchlo.store.dto.ProductByColorDto(p.color, count(p)) from Product p group by p.color",
+				"select new br.com.rchlo.store.dto.ProductByColorDto(p.color, count(p)) from Product p group by p.color ORDER BY p.color",
 				ProductByColorDto.class).getResultList();
 	}
 	
