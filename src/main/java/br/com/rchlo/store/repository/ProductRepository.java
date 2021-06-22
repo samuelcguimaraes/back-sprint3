@@ -20,6 +20,14 @@ public class ProductRepository {
 		return this.entityManager.createQuery("select p from Product p ORDER BY p.name", Product.class).getResultList();
 	}
 	
+	public List<Product> findAllByOrderByNameWithProductImageAndCategory() {
+		return this.entityManager.createQuery("SELECT p " +
+		                                      "FROM Product p " +
+		                                      "JOIN FETCH p.productImages " +
+		                                      "JOIN FETCH p.category " +
+		                                      "ORDER BY p.name", Product.class).getResultList();
+	}
+	
 	public List<ProductByColorDto> productsByColor() {
 		return this.entityManager.createQuery(
 				"select new br.com.rchlo.store.dto.ProductByColorDto(p.color, count(p)) from Product p group by p.color ORDER BY p.color",

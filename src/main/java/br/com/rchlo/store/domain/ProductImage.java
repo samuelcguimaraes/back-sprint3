@@ -4,13 +4,17 @@ import javax.persistence.*;
 
 @Entity
 public class ProductImage {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    private Product product;
-
-    private String imageUrl;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@ManyToOne
+	private Product product;
+	
+	private String imageUrl;
+	
+	public String getImageUrl() {
+		return this.imageUrl;
+	}
 }
