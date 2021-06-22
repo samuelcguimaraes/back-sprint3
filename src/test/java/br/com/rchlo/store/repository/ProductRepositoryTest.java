@@ -4,6 +4,7 @@ import br.com.rchlo.store.domain.Color;
 import br.com.rchlo.store.domain.Product;
 import br.com.rchlo.store.dto.ProductByColorDto;
 import br.com.rchlo.store.repository.util.JPAUtil;
+import br.com.rchlo.store.repository.util.builder.ProductBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,32 +71,39 @@ class ProductRepositoryTest {
 	}
 	
 	private void persistProducts() {
-		this.entityManager.persist(new Product(7L,
-		                                       "Jaqueta Puffer Juvenil Com Capuz Super Mario Branco",
-		                                       "A Jaqueta Puffer Juvenil Com Capuz Super Mario Branco é confeccionada em material sintético.",
-		                                       "jaqueta-puffer-juvenil-com-capuz-super-mario-branco-13834193_sku",
-		                                       "Nintendo",
-		                                       new BigDecimal("199.90"),
-		                                       null,
-		                                       Color.WHITE,
-		                                       147));
-		this.entityManager.persist(new Product(1L,
-		                                       "Regata Infantil Mario Bros Branco",
-		                                       "A Regata Infantil Mario Bros Branco é confeccionada em fibra natural. Aposte!",
-		                                       "regata-infantil-mario-bros-branco-14040174_sku",
-		                                       "Nintendo",
-		                                       new BigDecimal("29.90"),
-		                                       null,
-		                                       Color.WHITE,
-		                                       98));
-		this.entityManager.persist(new Product(3L,
-		                                       "Camiseta Infantil Mario Bros Azul",
-		                                       "A Camiseta Infantil Mario Bros Azul é confeccionada em fibra natural. Aposte!",
-		                                       "camiseta-infantil-mario-bros-azul-14040175_sku",
-		                                       "Nintendo",
-		                                       new BigDecimal("35.90"),
-		                                       null,
-		                                       Color.BLUE,
-		                                       105));
+		this.entityManager.persist(new ProductBuilder().setCode(7L)
+		                                               .setName("Jaqueta Puffer Juvenil Com Capuz Super Mario Branco")
+		                                               .setDescription(
+				                                               "A Jaqueta Puffer Juvenil Com Capuz Super Mario Branco é confeccionada em material sintético.")
+		                                               .setSlug(
+				                                               "jaqueta-puffer-juvenil-com-capuz-super-mario-branco-13834193_sku")
+		                                               .setBrand("Nintendo")
+		                                               .setPrice(new BigDecimal("199.90"))
+		                                               .setDiscount(null)
+		                                               .setColor(Color.WHITE)
+		                                               .setWeightInGrams(147)
+		                                               .build());
+		this.entityManager.persist(new ProductBuilder().setCode(1L)
+		                                               .setName("Regata Infantil Mario Bros Branco")
+		                                               .setDescription(
+				                                               "A Regata Infantil Mario Bros Branco é confeccionada em fibra natural. Aposte!")
+		                                               .setSlug("regata-infantil-mario-bros-branco-14040174_sku")
+		                                               .setBrand("Nintendo")
+		                                               .setPrice(new BigDecimal("29.90"))
+		                                               .setDiscount(null)
+		                                               .setColor(Color.WHITE)
+		                                               .setWeightInGrams(98)
+		                                               .build());
+		this.entityManager.persist(new ProductBuilder().setCode(3L)
+		                                               .setName("Camiseta Infantil Mario Bros Azul")
+		                                               .setDescription(
+				                                               "A Camiseta Infantil Mario Bros Azul é confeccionada em fibra natural. Aposte!")
+		                                               .setSlug("camiseta-infantil-mario-bros-azul-14040175_sku")
+		                                               .setBrand("Nintendo")
+		                                               .setPrice(new BigDecimal("35.90"))
+		                                               .setDiscount(null)
+		                                               .setColor(Color.BLUE)
+		                                               .setWeightInGrams(105)
+		                                               .build());
 	}
 }
