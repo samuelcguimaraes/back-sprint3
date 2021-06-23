@@ -43,7 +43,8 @@ public class PaymentController {
 	
 	@PutMapping("/{id}") //Para esse caso poderia ser o Patch?
 	@Transactional
-	public ResponseEntity<PaymentDto> confirm(@PathVariable Long id) { //, @RequestBody @Valid PaymentForm form
+	public ResponseEntity<PaymentDto> confirm(
+			@PathVariable Long id) { //Como é só um e fixo não precisa do "@RequestBody @Valid PaymentForm form"
 		final Optional<Payment> paymentOptional = this.paymentRepository.findById(id);
 		
 		if (paymentOptional.isPresent()) {

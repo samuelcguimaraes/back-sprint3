@@ -17,11 +17,6 @@ public class CategoryController {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	/*@GetMapping
-	public List<CategoryDto> categories() {
-		return CategoryDto.convert(this.categoryRepository.findAllByOrderByPosition());
-	}*/
-	
 	@GetMapping
 	public ResponseEntity<List<CategoryDto>> categories() {
 		return ResponseEntity.ok(CategoryDto.convert(this.categoryRepository.findAllByOrderByPosition()));

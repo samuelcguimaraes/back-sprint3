@@ -13,9 +13,9 @@ public class PaymentForm {
 	@DecimalMin("0.01")
 	private BigDecimal value;
 	
-	@NotNull
+	//@NotNull
 	@NotBlank
-	@Size(min = 3, max = 100)
+	@Size(min = 1, max = 100)
 	private String cardClientName;
 	
 	//@NotNull

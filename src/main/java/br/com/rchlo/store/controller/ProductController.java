@@ -20,21 +20,21 @@ public class ProductController {
 		this.productRepository = productRepository;
 	}
 	
-	@GetMapping("/products_old")
-	public List<ProductDto> productsOld() {
+	@GetMapping("/products_first")
+	public List<ProductDto> productsFirst() {
 		return this.productRepository.findAllByOrderByName().stream().map(ProductDto::new).collect(Collectors.toList());
 	}
 	
-	@GetMapping("/products")
-	public List<ProductWithImagesAndCategoryDto> products() {
+	@GetMapping("/products_second")
+	public List<ProductWithImagesAndCategoryDto> productsSecond() {
 		return this.productRepository.findAllByOrderByNameWithProductImageAndCategory()
 		                             .stream()
 		                             .map(ProductWithImagesAndCategoryDto::new)
 		                             .collect(Collectors.toList());
 	}
 	
-	@GetMapping("/products_new") //availableSizes está Lazy e não está sendo chamado com Join Fetch
-	public List<ProductWithImagesCategoryAndSizesDto> productsNew() {
+	@GetMapping("/products_third") //availableSizes está Lazy e não está sendo chamado com Join Fetch
+	public List<ProductWithImagesCategoryAndSizesDto> productsThird() {
 		return this.productRepository.findAllByOrderByNameWithProductImageAndCategory()
 		                             .stream()
 		                             .map(ProductWithImagesCategoryAndSizesDto::new)
