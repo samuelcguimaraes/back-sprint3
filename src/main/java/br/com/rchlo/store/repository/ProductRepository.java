@@ -2,6 +2,7 @@ package br.com.rchlo.store.repository;
 
 import br.com.rchlo.store.domain.Product;
 import br.com.rchlo.store.dto.ProductByColorDto;
+import org.hibernate.annotations.QueryHints;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,27 @@ public class ProductRepository {
 		                                      "JOIN FETCH p.productImages " +
 		                                      "JOIN FETCH p.category " +
 		                                      "ORDER BY p.name", Product.class).getResultList();
+	}
+	
+	public List<Product> findAllByOrderByNameWithProductImageCategoryAndSize() {
+		
+		List<Product> products = this.entityManager.createQuery("SELECT DISTINCT p " +
+		                                                        "FROM Product p " +
+		                                                        "JOIN FETCH p.productImages " +
+		                                                        "JOIN FETCH p.category ", Product.class)
+		                                           .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+		                                           .getResultList();
+		
+		products = this.entityManager.createQuery("SELECT DISTINCT p " +
+		                                          "FROM Product p " +
+		                                          "JOIN FETCH p.availableSizes " +
+		                                          "WHERE p IN :products " +
+		                                          "ORDER BY p.name", Product.class)
+		                             .setParameter("products", products)
+		                             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+		                             .getResultList();
+		
+		return products;
 	}
 	
 	public List<ProductByColorDto> productsByColor() {

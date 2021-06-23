@@ -35,7 +35,7 @@ public class ProductController {
 	
 	@GetMapping("/products_third") //availableSizes está Lazy e não está sendo chamado com Join Fetch
 	public List<ProductWithImagesCategoryAndSizesDto> productsThird() {
-		return this.productRepository.findAllByOrderByNameWithProductImageAndCategory()
+		return this.productRepository.findAllByOrderByNameWithProductImageCategoryAndSize()
 		                             .stream()
 		                             .map(ProductWithImagesCategoryAndSizesDto::new)
 		                             .collect(Collectors.toList());
