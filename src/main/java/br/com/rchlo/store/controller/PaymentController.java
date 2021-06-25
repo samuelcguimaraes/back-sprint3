@@ -4,9 +4,10 @@ import br.com.rchlo.store.domain.Payment;
 import br.com.rchlo.store.dto.PaymentDto;
 import br.com.rchlo.store.dto.form.PaymentForm;
 import br.com.rchlo.store.repository.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -18,15 +19,19 @@ import java.util.Optional;
 @RequestMapping("/payments")
 public class PaymentController {
 	
-	@Autowired
 	private PaymentRepository paymentRepository;
+	
+	public PaymentController(final PaymentRepository paymentRepository) {
+		this.paymentRepository = paymentRepository;
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<PaymentDto> readById(@PathVariable Long id) {
-		final Optional<Payment> paymentOptional = this.paymentRepository.findById(id);
+		final Payment payment = this.paymentRepository
+				                        .findById(id)
+				                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		
-		return paymentOptional.isPresent() ? ResponseEntity.ok(new PaymentDto(paymentOptional.get()))
-		                                   : ResponseEntity.notFound().build();
+		return ResponseEntity.ok(new PaymentDto(payment));
 	}
 	
 	@PostMapping
@@ -36,15 +41,15 @@ public class PaymentController {
 		final Payment payment = form.convert();
 		this.paymentRepository.save(payment);
 		
-		URI uri = uriBuilder.path("/payments/{id}").buildAndExpand(payment.getId()).toUri();
+		final URI uri = uriBuilder.path("/payments/{id}").buildAndExpand(payment.getId()).toUri();
 		
 		return ResponseEntity.created(uri).body(new PaymentDto(payment));
 	}
 	
-	@PutMapping("/{id}") //Para esse caso poderia ser o Patch?
+	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<PaymentDto> confirm(
-			@PathVariable Long id) { //Como é só um e fixo não precisa do "@RequestBody @Valid PaymentForm form"
+			@PathVariable Long id) {
 		final Optional<Payment> paymentOptional = this.paymentRepository.findById(id);
 		
 		if (paymentOptional.isPresent()) {

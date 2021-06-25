@@ -10,16 +10,17 @@ import java.time.YearMonth;
 public class PaymentForm {
 	
 	@NotNull
-	@DecimalMin("0.01")
+	//@DecimalMin("0.01")
+	@Positive
 	private BigDecimal value;
 	
 	//@NotNull
 	@NotBlank
-	@Size(min = 1, max = 100)
+	@Size(max = 100)
 	private String cardClientName;
 	
 	//@NotNull
-	//@NotBlank
+	@NotBlank
 	//@Size(min = 16, max = 16)
 	@Pattern(regexp = "\\d{16}", message = "deve possuir 16 dígitos")
 	private String cardNumber;
